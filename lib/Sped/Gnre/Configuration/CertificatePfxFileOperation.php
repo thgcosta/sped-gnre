@@ -95,11 +95,24 @@ class CertificatePfxFileOperation extends FileOperation
     public function writeFile($content, FilePrefix $filePrefix)
     {
         $pathToWrite = $filePrefix->apply($this->pathToWrite);
-
-        if (!file_put_contents($pathToWrite, $content)) {
+        
+        // Extrai o diretório do caminho do arquivo
+        $directory = dirname($pathToWrite);
+        
+        // Verifica se o diretório existe
+        if (!is_dir($directory)) {
+            // Cria o diretório, incluindo diretórios pai, se necessário
+            if (!mkdir($directory, 0755, true) && !is_dir($directory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $directory));
+            }
+        }
+        
+        // Tenta escrever o conteúdo no arquivo
+        if (file_put_contents($pathToWrite, $content) === false) {
             throw new UnableToWriteFile($this->pathToWrite);
         }
-
+        
         return $pathToWrite;
     }
+
 }

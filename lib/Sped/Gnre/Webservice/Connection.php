@@ -70,8 +70,13 @@ class Connection
             CURLOPT_POSTFIELDS => $data,
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_VERBOSE => $setup->getDebug(),
+            CURLOPT_SSL_VERIFYHOST => 2,
+            CURLOPT_SSL_VERIFYPEER => 1,
+            CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1,
+            CURLOPT_CAINFO => $setup->getCertificatePemFile(),
         );
 
+        // dd($this->curlOptions);
         $ip = $setup->getProxyIp();
         $port = $setup->getProxyPort();
 

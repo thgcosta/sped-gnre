@@ -68,9 +68,9 @@ class Lote extends LoteGnre
     /**
      * {@inheritdoc}
      */
-    public function getHeaderSoap()
+    public function getHeaderSoap($ambienteDeTeste = null)
     {
-        $action = $this->ambienteDeTeste ?
+        $action = $ambienteDeTeste ?
             'http://www.testegnre.pe.gov.br/webservice/GnreRecepcaoLote' :
             'http://www.gnre.pe.gov.br/webservice/GnreRecepcaoLote';
 
@@ -83,9 +83,9 @@ class Lote extends LoteGnre
     /**
      * {@inheritdoc}
      */
-    public function soapAction()
+    public function soapAction($ambienteDeTeste = null)
     {
-        return $this->ambienteDeTeste ?
+        return $ambienteDeTeste ?
             'https://www.testegnre.pe.gov.br/gnreWS/services/GnreLoteRecepcao' :
             'https://www.gnre.pe.gov.br/gnreWS/services/GnreLoteRecepcao';
     }

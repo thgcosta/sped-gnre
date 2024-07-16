@@ -105,7 +105,6 @@ class LoteV2 extends Lote {
 
             $identificadorGuia = $gnre->createElement('identificadorGuia', '1');
 
-
             // Trata os dados dos emitente
             $razaoSocial = $gnre->createElement('razaoSocial', $gnreGuia->c16_razaoSocialEmitente);
             $endereco = $gnre->createElement('endereco', $gnreGuia->c18_enderecoEmitente);
@@ -176,6 +175,10 @@ class LoteV2 extends Lote {
                 $referencia->appendChild($parcela);
             }
 
+            if ($gnreGuia->c25_detalhamentoReceita) {
+                $detalhamentoReceita = $gnre->createElement('detalhamentoReceita', $gnreGuia->c25_detalhamentoReceita);
+            }
+
             if ($gnreGuia->c14_dataVencimento) {
                 $dataVencimento = $gnre->createElement('dataVencimento', $gnreGuia->c14_dataVencimento);
             }
@@ -219,6 +222,9 @@ class LoteV2 extends Lote {
 
             if ($receita->nodeValue) {
                 $item->appendChild($receita);
+            }
+            if ($gnreGuia->c25_detalhamentoReceita) {
+                $item->appendChild($detalhamentoReceita);
             }
             if ($documentoOrigem->nodeValue) {
                 $item->appendChild($documentoOrigem);
