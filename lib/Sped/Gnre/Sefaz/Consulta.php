@@ -75,9 +75,15 @@ class Consulta extends ConsultaGnre
 
         $ambiente = $gnre->createElement('ambiente', $this->getEnvironment());
         $numeroRecibo = $gnre->createElement('numeroRecibo', $this->getRecibo());
+        if($this->getIncluirPDFGuias() != null){
+            $incluirPDFGuias = $gnre->createElement('incluirPDFGuias', 'S');
+        }
 
         $consulta->appendChild($ambiente);
         $consulta->appendChild($numeroRecibo);
+        if($this->getIncluirPDFGuias() != null){
+            $consulta->appendChild($incluirPDFGuias);
+        }
 
         $this->getSoapEnvelop($gnre, $consulta);
 

@@ -47,6 +47,11 @@ abstract class ConsultaGnre implements ObjetoSefaz
     private $recibo;
 
     /**
+     * Isso inclui na resposta do Sefaz o PDF da Guia em base64
+     */
+    private $incluirPDFGuias = false;
+
+    /**
      * Retorna o número de recibo armazenado no atributo interno da classe
      * @since  1.0.0
      * @return int
@@ -85,5 +90,21 @@ abstract class ConsultaGnre implements ObjetoSefaz
     public function setEnvironment($environment)
     {
         $this->environment = $environment;
+    }
+
+    /**
+     * Retorna se o PDF será incluído na resposta do Sefaz
+     */
+    public function getIncluirPDFGuias()
+    {
+        return $this->incluirPDFGuias;
+    }
+
+    /**
+     * Define se o PDF da guia será incluído na resposta do Sefaz
+     */
+    public function setIncluirPDFGuias($incluirPDFGuias)
+    {
+        $this->incluirPDFGuias = $incluirPDFGuias;
     }
 }
