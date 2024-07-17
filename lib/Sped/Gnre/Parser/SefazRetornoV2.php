@@ -253,9 +253,9 @@ class SefazRetornoV2 {
     return $stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->resultado->guia->codigoBarras->value;
   }
 
-  // TODO: Implementar
-  public function getCopiaECola()
+  public function getPDFBase64()
   {
     $stdClass = $this->toStdClass();
+    return $stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->resultado->pdfGuias->value;
   }
 }
