@@ -78,6 +78,8 @@ class SefazRetornoV2 {
       $response = $stdClass->Envelope->Body->processarResponse->TRetLote_GNRE->situacaoRecepcao->codigo->value;
     }elseif(isset($stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->situacaoProcess->codigo->value)){
       $response = $stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->situacaoProcess->codigo->value;
+    }elseif(isset($stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->numeroRecibo->value)){
+      $response = 401; // 401 Em processamento;
     }
     return $response;
   }
@@ -90,6 +92,8 @@ class SefazRetornoV2 {
       $response = $stdClass->Envelope->Body->processarResponse->TRetLote_GNRE->situacaoRecepcao->descricao->value;
     }elseif(isset($stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->situacaoProcess->descricao->value)){
       $response = $stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->situacaoProcess->descricao->value;
+    }elseif(isset($stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->numeroRecibo->value)){
+      $response = 'Pedido em processamento';
     }
     return $response;
   }
@@ -97,7 +101,11 @@ class SefazRetornoV2 {
   public function getReciboNumero()
   {
     $stdClass = $this->toStdClass();
-    return $stdClass->Envelope->Body->processarResponse->TRetLote_GNRE->recibo->numero->value;
+    if(isset($stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->numeroRecibo->value)){
+      return $stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->numeroRecibo->value;
+    }else if(isset($stdClass->Envelope->Body->processarResponse->TRetLote_GNRE->recibo->numero->value)){
+      return $stdClass->Envelope->Body->processarResponse->TRetLote_GNRE->recibo->numero->value;
+    }
   }
 
   public function getDataRecibo()
@@ -109,6 +117,9 @@ class SefazRetornoV2 {
   public function getValorPrincipal()
   {
     $stdClass = $this->toStdClass();
+    if(isset($stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->resultado->guia->itensGNRE->item->valor->value)){
+      return $stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->resultado->guia->itensGNRE->item->valor->value;
+    }
     foreach(
       $stdClass
       ->Envelope
@@ -144,8 +155,10 @@ class SefazRetornoV2 {
       ->valor
       as $valor
     ){
-      if($valor->attributes->tipo == '21'){
+      if(isset($valor->attributes->tipo) && $valor->attributes->tipo == '21'){
         return $valor->value;
+      }else{
+        return '0.00';
       }
     }
   }
@@ -166,8 +179,10 @@ class SefazRetornoV2 {
       ->valor
       as $valor
     ){
-      if($valor->attributes->tipo == '31'){
+      if(isset($valor->attributes->tipo) && $valor->attributes->tipo == '31'){
         return $valor->value;
+      }else{
+        return '0.00';
       }
     }
   }
@@ -188,8 +203,10 @@ class SefazRetornoV2 {
       ->valor
       as $valor
     ){
-      if($valor->attributes->tipo == '41'){
+      if(isset($valor->attributes->tipo) && $valor->attributes->tipo == '41'){
         return $valor->value;
+      }else{
+        return '0.00';
       }
     }
   }
