@@ -275,4 +275,28 @@ class SefazRetornoV2 {
     $stdClass = $this->toStdClass();
     return $stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->resultado->pdfGuias->value;
   }
+
+  public function getCodigoRejeicao()
+  {
+    $stdClass = $this->toStdClass();
+    if(isset($stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->resultado->motivosRejeicao->motivo->codigo->value)){
+      return $stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->resultado->motivosRejeicao->motivo->codigo->value;
+    }
+    if(isset($stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->resultado->guia->motivosRejeicao->motivo->codigo->value)){
+      return $stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->resultado->guia->motivosRejeicao->motivo->codigo->value;
+    }
+    return '9999';
+  }
+
+  public function getMotivoRejeicao()
+  {
+    $stdClass = $this->toStdClass();
+    if(isset($stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->resultado->motivosRejeicao->motivo->descricao->value)){
+      return $stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->resultado->motivosRejeicao->motivo->descricao->value;
+    }
+    if(isset($stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->resultado->guia->motivosRejeicao->motivo->descricao->value)){
+      return $stdClass->Envelope->Body->gnreRespostaMsg->TResultLote_GNRE->resultado->guia->motivosRejeicao->motivo->descricao->value;
+    }
+    return 'Retorno não mapeado';
+  }
 }
